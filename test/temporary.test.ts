@@ -1,12 +1,16 @@
-import { reset, db } from "./harness";
+import { migrate, db, reset } from "./harness";
 
 jest.setTimeout(1000 * 60);
+
+beforeAll(async () => {
+  await migrate();
+});
 
 beforeEach(async () => {
   await reset();
 });
 
-const person = {
+const PERSON = {
   gender: "male",
   first_name: "jeff",
   last_name: "bezos",
@@ -17,13 +21,43 @@ it("insert and read", async () => {
     .insertInto("person")
     .values({
       id: db.generated,
-      ...person,
+      ...PERSON,
     })
     .execute();
 
   const result = await db.selectFrom("person").selectAll().execute();
   expect(result).toHaveLength(1);
-  expect(result[0]).toMatchObject(person);
+  expect(result[0]).toMatchObject(PERSON);
+});
+
+it("join", async () => {
+  const person = await db
+    .insertInto("person")
+    .values({
+      id: db.generated,
+      ...PERSON,
+    })
+    .returning(["id"])
+    .executeTakeFirst();
+
+  await db
+    .insertInto("pet")
+    .values({
+      id: db.generated,
+      name: "fido",
+      species: "dog",
+      owner_id: person.id,
+    })
+    .execute();
+
+  const result = await db
+    .selectFrom("person")
+    .innerJoin("pet", "pet.owner_id", "person.id")
+    .select(["pet.name as pet_name", "person.first_name"])
+    .executeTakeFirst();
+
+  expect(result.first_name).toEqual("jeff");
+  expect(result.pet_name).toEqual("fido");
 });
 
 it("transaction", async () => {
@@ -32,12 +66,12 @@ it("transaction", async () => {
       .insertInto("person")
       .values({
         id: db.generated,
-        ...person,
+        ...PERSON,
       })
       .execute();
   });
 
   const result = await db.selectFrom("person").selectAll().execute();
   expect(result).toHaveLength(1);
-  expect(result[0]).toMatchObject(person);
+  expect(result[0]).toMatchObject(PERSON);
 });

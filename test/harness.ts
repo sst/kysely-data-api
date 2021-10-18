@@ -16,35 +16,29 @@ const dialect = new DataApiDialect({
   driver: opts,
 });
 
-interface Person {
+export interface Person {
   id: number;
   first_name: string;
   last_name: string;
   gender: "male" | "female" | "other";
 }
 
-interface Pet {
+export interface Pet {
   id: number;
   name: string;
   owner_id: number;
   species: "dog" | "cat";
 }
 
-interface Movie {
-  id: string;
-  stars: number;
-}
-
 // Keys are table names.
 interface Database {
   person: Person;
   pet: Pet;
-  movie: Movie;
 }
 
 export const db = new Kysely<Database>({ dialect });
 
-export async function reset() {
+export async function migrate() {
   await opts.client
     .executeStatement({
       sql: `
@@ -74,4 +68,9 @@ export async function reset() {
     .promise();
 
   await db.migration.migrateToLatest(path.resolve("./test/migrations"));
+}
+
+export async function reset() {
+  await db.deleteFrom("person").execute();
+  await db.deleteFrom("pet").execute();
 }
