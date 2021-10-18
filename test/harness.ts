@@ -2,6 +2,7 @@ import RDSDataService from "aws-sdk/clients/rdsdataservice";
 import { Kysely } from "kysely";
 import { DataApiDialect } from "../src";
 import { DataApiDriverConfig } from "../src/data-api-driver";
+import path from "path";
 
 const TEST_DATABASE = "scratch";
 
@@ -47,7 +48,7 @@ export async function reset() {
   await opts.client
     .executeStatement({
       sql: `
-      SELECT pg_terminate_backend(pid) FROM  pg_stat_activity WHERE pid <> pg_backend_pid() AND datname = '${TEST_DATABASE}'`,
+      SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE pid <> pg_backend_pid() AND datname = '${TEST_DATABASE}'`,
       database: "postgres",
       secretArn: opts.secretArn,
       resourceArn: opts.resourceArn,
@@ -72,27 +73,5 @@ export async function reset() {
     })
     .promise();
 
-  await db.schema
-    .createTable("person")
-    .addColumn("id", "integer", (col) => col.increments().primaryKey())
-    .addColumn("first_name", "varchar")
-    .addColumn("last_name", "varchar")
-    .addColumn("gender", "varchar(50)")
-    .execute();
-
-  await db.schema
-    .createTable("pet")
-    .addColumn("id", "integer", (col) => col.increments().primaryKey())
-    .addColumn("name", "varchar", (col) => col.notNull().unique())
-    .addColumn("owner_id", "integer", (col) =>
-      col.references("person.id").onDelete("cascade")
-    )
-    .addColumn("species", "varchar")
-    .execute();
-
-  await db.schema
-    .createIndex("pet_owner_id_index")
-    .on("pet")
-    .column("owner_id")
-    .execute();
+  await db.migration.migrateToLatest(path.resolve("./test/migrations"));
 }

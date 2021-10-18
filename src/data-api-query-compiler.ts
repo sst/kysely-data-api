@@ -1,7 +1,7 @@
 import { Field } from "aws-sdk/clients/rdsdataservice";
-import { DefaultQueryCompiler } from "kysely";
+import { PostgresQueryCompiler } from "kysely";
 
-export class DataApiQueryCompiler extends DefaultQueryCompiler {
+export class DataApiQueryCompiler extends PostgresQueryCompiler {
   protected override appendValue(value: any) {
     const name = this.numBindings;
     this.append(this.getCurrentParameterPlaceholder());

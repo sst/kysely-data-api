@@ -12,7 +12,7 @@ type DataApiDialectConfig = {
 };
 
 export class DataApiDialect implements Dialect {
-  #config: DataApiDialectConfig;
+  readonly #config: DataApiDialectConfig;
 
   constructor(config: DataApiDialectConfig) {
     this.#config = config;
@@ -28,7 +28,6 @@ export class DataApiDialect implements Dialect {
   }
 
   createIntrospector(db: Kysely<any>): DatabaseIntrospector {
-    console.log("Introspector");
     return new PostgresIntrospector(db);
   }
 }

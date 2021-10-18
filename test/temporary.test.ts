@@ -2,12 +2,8 @@ import { reset, db } from "./harness";
 
 jest.setTimeout(1000 * 60);
 
-beforeAll(async () => {
-  await reset();
-});
-
 beforeEach(async () => {
-  await db.deleteFrom("person").execute();
+  await reset();
 });
 
 const person = {
