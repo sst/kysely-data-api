@@ -1,4 +1,4 @@
-import { Driver } from "kysely";
+import { Driver, PostgresAdapter } from "kysely";
 import { Kysely } from "kysely";
 import { QueryCompiler } from "kysely";
 import { Dialect } from "kysely";
@@ -16,6 +16,10 @@ export class DataApiDialect implements Dialect {
 
   constructor(config: DataApiDialectConfig) {
     this.#config = config;
+  }
+
+  createAdapter() {
+    return new PostgresAdapter();
   }
 
   createDriver(): Driver {

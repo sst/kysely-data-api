@@ -61,7 +61,7 @@ it("join", async () => {
 });
 
 it("transaction", async () => {
-  await db.transaction(async (tx) => {
+  await db.transaction().execute(async (tx) => {
     await tx
       .insertInto("person")
       .values({

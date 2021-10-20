@@ -10,37 +10,34 @@ export type DataApiDriverConfig = {
   database: string;
 };
 
-export class DataApiDriver extends Driver {
+export class DataApiDriver implements Driver {
   #config: DataApiDriverConfig;
 
   constructor(config: DataApiDriverConfig) {
-    super();
     this.#config = config;
   }
 
-  protected override async init(): Promise<void> {}
+  async init(): Promise<void> {}
 
-  protected override async acquireConnection(): Promise<DatabaseConnection> {
+  async acquireConnection(): Promise<DatabaseConnection> {
     return new DataApiConnection(this.#config);
   }
 
-  override async beginTransaction(conn: DataApiConnection) {
+  async beginTransaction(conn: DataApiConnection) {
     await conn.beginTransaction();
   }
 
-  override async commitTransaction(conn: DataApiConnection) {
+  async commitTransaction(conn: DataApiConnection) {
     await conn.commitTransaction();
   }
 
-  override async rollbackTransaction(conn: DataApiConnection) {
+  async rollbackTransaction(conn: DataApiConnection) {
     await conn.rollbackTransaction();
   }
 
-  protected override async releaseConnection(
-    _connection: DatabaseConnection
-  ): Promise<void> {}
+  async releaseConnection(_connection: DatabaseConnection): Promise<void> {}
 
-  protected override async destroy(): Promise<void> {}
+  async destroy(): Promise<void> {}
 }
 
 class DataApiConnection implements DatabaseConnection {
