@@ -1,6 +1,6 @@
 {
   "name": "kysely-data-api",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": "git@github.com:serverless-stack/kysely-data-api.git",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -32,5 +32,8 @@
   "peerDependencies": {
     "aws-sdk": "^2.1008.0",
     "kysely": "^0.6.2"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
