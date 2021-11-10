@@ -5,9 +5,13 @@ import { Dialect } from "kysely";
 import { DatabaseIntrospector } from "kysely";
 import { PostgresIntrospector } from "kysely";
 import { DataApiDriver, DataApiDriverConfig } from "./data-api-driver";
-import { DataApiQueryCompiler } from "./data-api-query-compiler";
+import {
+  PostgresDataApiQueryCompiler,
+  MysqlDataApiQueryCompiler,
+} from "./data-api-query-compiler";
 
 type DataApiDialectConfig = {
+  mode: "postgres" | "mysql";
   driver: DataApiDriverConfig;
 };
 
@@ -27,8 +31,11 @@ export class DataApiDialect implements Dialect {
   }
 
   createQueryCompiler(): QueryCompiler {
-    // The default query compiler is for postgres dialect.
-    return new DataApiQueryCompiler();
+    if (this.#config.mode === "postgres")
+      return new PostgresDataApiQueryCompiler();
+    if (this.#config.mode === "mysql") return new MysqlDataApiQueryCompiler();
+
+    throw new Error("Unknown mode " + this.#config.mode);
   }
 
   createIntrospector(db: Kysely<any>): DatabaseIntrospector {

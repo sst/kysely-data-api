@@ -2003,10 +2003,10 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-kysely@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.7.1.tgz#64aace1262f86114c89950f01996c5d46a40b8d4"
-  integrity sha512-PPUIaggFHNxkAdUCfdlr/94QsT4IRQvRXgP6oa/lrcKScUTMnaaYxg3cTlrPj8ZN5uoHu5YzTF+8gBGhtHHcuw==
+kysely@^0.7.7:
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.7.7.tgz#7812f834be5c63c273dcdf1907afec7804813ee5"
+  integrity sha512-CVOmPJRkkU9Gsn5YXuuV/RS/0UsEhcP+/C3MV2durH21iGHIkJzxpUIf0ykVdrih6oUhw6wj2FbBSOkVglMR+A==
   dependencies:
     "@types/node" "^16.10.9"
 

@@ -98,6 +98,7 @@ class DataApiConnection implements DatabaseConnection {
     if (!r.columnMetadata) {
       return {
         numUpdatedOrDeletedRows: r.numberOfRecordsUpdated,
+        rows: [],
       };
     }
     const rows = r.records
@@ -117,7 +118,7 @@ class DataApiConnection implements DatabaseConnection {
           ) as O
       );
     const result: QueryResult<O> = {
-      rows,
+      rows: rows || [],
     };
     return result;
   }
