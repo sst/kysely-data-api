@@ -3,31 +3,31 @@ import { MysqlQueryCompiler, PostgresQueryCompiler } from "kysely";
 
 export class PostgresDataApiQueryCompiler extends PostgresQueryCompiler {
   protected override appendValue(value: any) {
-    const name = this.numBindings;
+    const name = this.numParameters;
     this.append(this.getCurrentParameterPlaceholder());
-    this.addBinding({
+    this.addParameter({
       name: name.toString(),
       value: serialize(value),
     });
   }
 
   protected override getCurrentParameterPlaceholder() {
-    return ":" + this.numBindings;
+    return ":" + this.numParameters;
   }
 }
 
 export class MysqlDataApiQueryCompiler extends MysqlQueryCompiler {
   protected override appendValue(value: any) {
-    const name = this.numBindings;
+    const name = this.numParameters;
     this.append(this.getCurrentParameterPlaceholder());
-    this.addBinding({
+    this.addParameter({
       name: name.toString(),
       value: serialize(value),
     });
   }
 
   protected override getCurrentParameterPlaceholder() {
-    return ":" + this.numBindings;
+    return ":" + this.addParameter;
   }
 }
 

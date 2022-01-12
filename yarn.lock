@@ -578,10 +578,15 @@
     jest-diff "^27.0.0"
     pretty-format "^27.0.0"
 
-"@types/node@*", "@types/node@^16.10.9", "@types/node@^16.11.0":
+"@types/node@*", "@types/node@^16.11.0":
   version "16.11.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.0.tgz#4b95f2327bacd1ef8f08d8ceda193039c5d7f52e"
   integrity sha512-8MLkBIYQMuhRBQzGN9875bYsOhPnf/0rgXGo66S2FemHkhbn9qtsz9ywV1iCG+vbjigE4WUNVvw37Dx+L0qsPg==
+
+"@types/node@^16.11.9":
+  version "16.11.19"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.19.tgz#1afa165146997b8286b6eabcb1c2d50729055169"
+  integrity sha512-BPAcfDPoHlRQNKktbsbnpACGdypPFBuX4xQlsWDE7B8XXcfII+SpOLay3/qZmCLb39kV5S1RTYwXdkx2lwLYng==
 
 "@types/prettier@^2.1.5":
   version "2.4.1"
@@ -2003,12 +2008,12 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-kysely@^0.7.7:
-  version "0.7.7"
-  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.7.7.tgz#7812f834be5c63c273dcdf1907afec7804813ee5"
-  integrity sha512-CVOmPJRkkU9Gsn5YXuuV/RS/0UsEhcP+/C3MV2durH21iGHIkJzxpUIf0ykVdrih6oUhw6wj2FbBSOkVglMR+A==
+kysely@^0.16.5:
+  version "0.16.5"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.16.5.tgz#e163040352b8c6f5e6f93f3f82b633faa247ccc2"
+  integrity sha512-rzjbUZ6X17x+gTcY0KdsijkmyF4yGvNeEjJ6c1ARG/8cUMMAU69KjUBKRdj3YhxzLXvr+yct/kAIPOw+F/kF0A==
   dependencies:
-    "@types/node" "^16.10.9"
+    "@types/node" "^16.11.9"
 
 leven@^3.1.0:
   version "3.1.0"

@@ -24,14 +24,26 @@ export class DataApiDriver implements Driver {
   }
 
   async beginTransaction(conn: DataApiConnection) {
+    if ("connection" in conn) {
+      await (conn as any).connection.beginTransaction();
+      return;
+    }
     await conn.beginTransaction();
   }
 
   async commitTransaction(conn: DataApiConnection) {
+    if ("connection" in conn) {
+      await (conn as any).connection.commitTransaction();
+      return;
+    }
     await conn.commitTransaction();
   }
 
   async rollbackTransaction(conn: DataApiConnection) {
+    if ("connection" in conn) {
+      await (conn as any).connection.rollbackTransaction();
+      return;
+    }
     await conn.rollbackTransaction();
   }
 
@@ -48,7 +60,7 @@ class DataApiConnection implements DatabaseConnection {
     this.#config = config;
   }
 
-  async beginTransaction() {
+  public async beginTransaction() {
     const r = await this.#config.client
       .beginTransaction({
         secretArn: this.#config.secretArn,
@@ -59,7 +71,7 @@ class DataApiConnection implements DatabaseConnection {
     this.#transactionId = r.transactionId;
   }
 
-  async commitTransaction() {
+  public async commitTransaction() {
     if (!this.#transactionId)
       throw new Error("Cannot commit a transaction before creating it");
     await this.#config.client
@@ -71,7 +83,7 @@ class DataApiConnection implements DatabaseConnection {
       .promise();
   }
 
-  async rollbackTransaction() {
+  public async rollbackTransaction() {
     if (!this.#transactionId)
       throw new Error("Cannot rollback a transaction before creating it");
     await this.#config.client
@@ -90,14 +102,14 @@ class DataApiConnection implements DatabaseConnection {
         secretArn: this.#config.secretArn,
         resourceArn: this.#config.resourceArn,
         sql: compiledQuery.sql,
-        parameters: compiledQuery.bindings as any,
+        parameters: compiledQuery.parameters as any,
         database: this.#config.database,
         includeResultMetadata: true,
       })
       .promise();
     if (!r.columnMetadata) {
       return {
-        numUpdatedOrDeletedRows: r.numberOfRecordsUpdated,
+        numUpdatedOrDeletedRows: BigInt(r.numberOfRecordsUpdated || 0),
         rows: [],
       };
     }
