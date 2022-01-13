@@ -24,26 +24,14 @@ export class DataApiDriver implements Driver {
   }
 
   async beginTransaction(conn: DataApiConnection) {
-    if ("connection" in conn) {
-      await (conn as any).connection.beginTransaction();
-      return;
-    }
     await conn.beginTransaction();
   }
 
   async commitTransaction(conn: DataApiConnection) {
-    if ("connection" in conn) {
-      await (conn as any).connection.commitTransaction();
-      return;
-    }
     await conn.commitTransaction();
   }
 
   async rollbackTransaction(conn: DataApiConnection) {
-    if ("connection" in conn) {
-      await (conn as any).connection.rollbackTransaction();
-      return;
-    }
     await conn.rollbackTransaction();
   }
 
