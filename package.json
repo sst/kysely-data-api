@@ -26,12 +26,12 @@
     "esbuild": "^0.13.6",
     "esbuild-runner": "^2.2.1",
     "jest": "^27.2.5",
-    "kysely": "^0.16.5",
+    "kysely": "^0.16.6",
     "perf_hooks": "^0.0.1"
   },
   "peerDependencies": {
     "aws-sdk": "^2.1008.0",
-    "kysely": "^0.7.7"
+    "kysely": "^0.16.6"
   },
   "files": [
     "dist"
