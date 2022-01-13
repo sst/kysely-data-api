@@ -120,14 +120,14 @@ class DataApiConnection implements DatabaseConnection {
           Object.fromEntries(
             rec.map((val, i) => [
               r.columnMetadata![i].name,
-              val.stringValue ||
-                val.blobValue ||
-                val.longValue ||
-                val.arrayValue ||
-                val.doubleValue ||
+              val.stringValue ??
+                val.blobValue ??
+                val.longValue ??
+                val.arrayValue ??
+                val.doubleValue ??
                 (val.isNull ? null : val.booleanValue),
             ])
-          ) as O
+          ) as unknown as O
       );
     const result: QueryResult<O> = {
       rows: rows || [],
