@@ -27,7 +27,7 @@ export class MysqlDataApiQueryCompiler extends MysqlQueryCompiler {
   }
 
   protected override getCurrentParameterPlaceholder() {
-    return ":" + this.addParameter;
+    return ":" + this.numParameters;
   }
 }
 
