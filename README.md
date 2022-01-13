@@ -1,6 +1,6 @@
 ## Kysely Data Api
 
-This library adds AWS RDS Data Api support for [kysely](github.com/koskimas/kysely). It has support for both MySQL and Postgres
+This library adds AWS RDS Data Api support for [kysely](https://github.com/koskimas/kysely). It has support for both MySQL and Postgres
 
 ### Usage
 
