@@ -1,9 +1,14 @@
-import { Driver, PostgresAdapter } from "kysely";
-import { Kysely } from "kysely";
-import { QueryCompiler } from "kysely";
-import { Dialect } from "kysely";
-import { DatabaseIntrospector } from "kysely";
-import { PostgresIntrospector } from "kysely";
+import {
+  Driver,
+  MysqlAdapter,
+  MysqlIntrospector,
+  PostgresAdapter,
+  Kysely,
+  QueryCompiler,
+  Dialect,
+  DatabaseIntrospector,
+  PostgresIntrospector,
+} from "kysely";
 import { DataApiDriver, DataApiDriverConfig } from "./data-api-driver";
 import {
   PostgresDataApiQueryCompiler,
@@ -23,7 +28,10 @@ export class DataApiDialect implements Dialect {
   }
 
   createAdapter() {
-    return new PostgresAdapter();
+    if (this.#config.mode === "postgres") return new PostgresAdapter();
+    if (this.#config.mode === "mysql") return new MysqlAdapter();
+
+    throw new Error("Unknown mode " + this.#config.mode);
   }
 
   createDriver(): Driver {
@@ -39,6 +47,9 @@ export class DataApiDialect implements Dialect {
   }
 
   createIntrospector(db: Kysely<any>): DatabaseIntrospector {
-    return new PostgresIntrospector(db);
+    if (this.#config.mode === "postgres") return new PostgresIntrospector(db);
+    if (this.#config.mode === "mysql") return new MysqlIntrospector(db);
+
+    throw new Error("Unknown mode " + this.#config.mode);
   }
 }
