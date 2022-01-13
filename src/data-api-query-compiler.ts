@@ -35,9 +35,14 @@ function serialize(value: any): Field {
   if (value == null) return { isNull: true };
   switch (typeof value) {
     case "number":
-      return {
-        longValue: value,
-      };
+      if (Number.isInteger(value))
+        return {
+          longValue: value,
+        };
+      else
+        return {
+          doubleValue: value,
+        };
     case "bigint":
       return {
         doubleValue: Number(value),
@@ -50,6 +55,12 @@ function serialize(value: any): Field {
       return {
         booleanValue: value,
       };
+    case "object":
+      if (Buffer.isBuffer(value))
+        return {
+          blobValue: value,
+        };
+      else break;
   }
 
   throw "wtf";
