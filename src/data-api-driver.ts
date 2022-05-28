@@ -1,7 +1,7 @@
 import { DatabaseConnection, QueryResult } from "kysely";
 import { Driver } from "kysely";
 import { CompiledQuery } from "kysely";
-import * as RDSDataService from "aws-sdk/clients/rdsdataservice";
+import RDSDataService, { SqlParametersList } from "aws-sdk/clients/rdsdataservice";
 
 export type DataApiDriverConfig = {
   client: RDSDataService;
@@ -17,7 +17,9 @@ export class DataApiDriver implements Driver {
     this.#config = config;
   }
 
-  async init(): Promise<void> {}
+  async init(): Promise<void> {
+    // do nothing
+  }
 
   async acquireConnection(): Promise<DatabaseConnection> {
     return new DataApiConnection(this.#config);
@@ -35,9 +37,13 @@ export class DataApiDriver implements Driver {
     await conn.rollbackTransaction();
   }
 
-  async releaseConnection(_connection: DatabaseConnection): Promise<void> {}
+  async releaseConnection(_connection: DatabaseConnection): Promise<void> {
+    // do nothing
+  }
 
-  async destroy(): Promise<void> {}
+  async destroy(): Promise<void> {
+    // do nothing
+  }
 }
 
 class DataApiConnection implements DatabaseConnection {
@@ -90,7 +96,7 @@ class DataApiConnection implements DatabaseConnection {
         secretArn: this.#config.secretArn,
         resourceArn: this.#config.resourceArn,
         sql: compiledQuery.sql,
-        parameters: compiledQuery.parameters as any,
+        parameters: compiledQuery.parameters as SqlParametersList,
         database: this.#config.database,
         includeResultMetadata: true,
       })
@@ -107,15 +113,15 @@ class DataApiConnection implements DatabaseConnection {
         (rec) =>
           Object.fromEntries(
             rec.map((val, i) => [
-              r.columnMetadata![i].name,
+              r.columnMetadata?.[i].name,
               val.stringValue ??
                 val.blobValue ??
                 val.longValue ??
                 val.arrayValue ??
                 val.doubleValue ??
                 (val.isNull ? null : val.booleanValue),
-            ])
-          ) as unknown as O
+            ]),
+          ) as unknown as O,
       );
     const result: QueryResult<O> = {
       rows: rows || [],

@@ -20,7 +20,6 @@ it("insert and read", async () => {
   await db
     .insertInto("person")
     .values({
-      id: db.generated,
       ...PERSON,
     })
     .execute();
@@ -34,7 +33,6 @@ it("join", async () => {
   const person = await db
     .insertInto("person")
     .values({
-      id: db.generated,
       ...PERSON,
     })
     .returning(["id"])
@@ -43,7 +41,6 @@ it("join", async () => {
   await db
     .insertInto("pet")
     .values({
-      id: db.generated,
       name: "fido",
       species: "dog",
       owner_id: person.id,
@@ -65,7 +62,6 @@ it("transaction", async () => {
     await tx
       .insertInto("person")
       .values({
-        id: db.generated,
         ...PERSON,
       })
       .execute();
