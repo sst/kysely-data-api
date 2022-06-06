@@ -1,1 +1,1 @@
-export * from "./data-api-dialect";
+export * from "./data-api-dialect.js";

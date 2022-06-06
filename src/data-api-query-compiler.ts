@@ -1,4 +1,4 @@
-import { Field } from "aws-sdk/clients/rdsdataservice";
+import { Field } from "aws-sdk/clients/rdsdataservice.js";
 import { MysqlQueryCompiler, PostgresQueryCompiler } from "kysely";
 
 export class PostgresDataApiQueryCompiler extends PostgresQueryCompiler {
