@@ -16,6 +16,11 @@ const PERSON = {
   last_name: "bezos",
 } as const;
 
+const PERSON_ALIAS = {
+    first: "jeff",
+    last: "bezos"
+}
+
 it("insert and read", async () => {
   await db
     .insertInto("person")
@@ -28,6 +33,12 @@ it("insert and read", async () => {
   const result = await db.selectFrom("person").selectAll().execute();
   expect(result).toHaveLength(1);
   expect(result[0]).toMatchObject(PERSON);
+});
+
+it("alias return", async () => {
+    const result = await db.selectFrom("person").select(["first_name as first", "last_name as last"]).execute();
+    expect(result).toHaveLength(1);
+    expect(result[0]).toMatchObject(PERSON_ALIAS);
 });
 
 it("join", async () => {
