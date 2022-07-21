@@ -1,5 +1,11 @@
 # kysely-data-api
 
+## 0.1.0
+
+### Minor Changes
+
+- [`0deb9ac`](https://github.com/serverless-stack/kysely-data-api/commit/0deb9ac392b984f1e559dbd05a3e0117cccff638) Thanks [@thdxr](https://github.com/thdxr)! - Throw error if streamQuery is used
+
 ## 0.0.12
 
 ### Patch Changes
