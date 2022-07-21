@@ -107,7 +107,7 @@ class DataApiConnection implements DatabaseConnection {
         (rec) =>
           Object.fromEntries(
             rec.map((val, i) => [
-              r.columnMetadata![i].label ? r.columnMetadata![i].label : r.columnMetadata![i].name,
+              r.columnMetadata![i].label || r.columnMetadata![i].name,
               val.stringValue ??
                 val.blobValue ??
                 val.longValue ??
