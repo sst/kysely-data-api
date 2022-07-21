@@ -13,6 +13,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist && rm -rf test/dist",
+    "release": "yarn build && yarn changeset publish",
     "build": "yarn clean && yarn build:esm && yarn build:cjs && ./module-fixup.sh",
     "test": "AWS_SDK_LOAD_CONFIG=1 vitest",
     "build:esm": "tsc -p tsconfig-esm.json",
