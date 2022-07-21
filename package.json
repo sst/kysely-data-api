@@ -19,6 +19,8 @@
     "build:cjs": "tsc -p tsconfig-cjs.json"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.4.5",
+    "@changesets/cli": "^2.23.2",
     "@tsconfig/node14": "^1.0.1",
     "@types/node": "^16.11.0",
     "aws-sdk": "^2.1008.0",
