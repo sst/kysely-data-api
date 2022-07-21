@@ -1,6 +1,6 @@
 {
   "name": "kysely-data-api",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "repository": "git@github.com:serverless-stack/kysely-data-api.git",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
