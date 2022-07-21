@@ -122,4 +122,11 @@ class DataApiConnection implements DatabaseConnection {
     };
     return result;
   }
+   
+   async *streamQuery<O>(
+    _compiledQuery: CompiledQuery,
+    _chunkSize: number
+  ): AsyncIterableIterator<QueryResult<O>> {
+    throw new Error("Data API does not support streaming");
+  }
 }
