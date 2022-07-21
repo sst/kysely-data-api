@@ -1,6 +1,5 @@
 import { migrate, db, reset } from "./harness";
-
-jest.setTimeout(1000 * 60);
+import { beforeAll, it, beforeEach, expect } from "vitest";
 
 beforeAll(async () => {
   await migrate();
@@ -17,15 +16,15 @@ const PERSON = {
 } as const;
 
 const PERSON_ALIAS = {
-    first: "jeff",
-    last: "bezos"
-}
+  first: "jeff",
+  last: "bezos",
+};
 
 it("insert and read", async () => {
   await db
     .insertInto("person")
     .values({
-      id: db.generated,
+      id: generated,
       ...PERSON,
     })
     .execute();
@@ -36,9 +35,12 @@ it("insert and read", async () => {
 });
 
 it("alias return", async () => {
-    const result = await db.selectFrom("person").select(["first_name as first", "last_name as last"]).execute();
-    expect(result).toHaveLength(1);
-    expect(result[0]).toMatchObject(PERSON_ALIAS);
+  const result = await db
+    .selectFrom("person")
+    .select(["first_name as first", "last_name as last"])
+    .execute();
+  expect(result).toHaveLength(1);
+  expect(result[0]).toMatchObject(PERSON_ALIAS);
 });
 
 it("join", async () => {

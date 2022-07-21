@@ -14,6 +14,7 @@ const opts: DataApiDriverConfig = {
 };
 const dialect = new DataApiDialect({
   driver: opts,
+  mode: "postgres",
 });
 
 export interface Person {
