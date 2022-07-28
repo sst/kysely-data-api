@@ -1,4 +1,4 @@
-import { Field } from "aws-sdk/clients/rdsdataservice.js";
+import { SqlParameter } from "aws-sdk/clients/rdsdataservice";
 import { MysqlQueryCompiler, PostgresQueryCompiler } from "kysely";
 
 export class PostgresDataApiQueryCompiler extends PostgresQueryCompiler {
@@ -7,7 +7,7 @@ export class PostgresDataApiQueryCompiler extends PostgresQueryCompiler {
     this.append(this.getCurrentParameterPlaceholder());
     this.addParameter({
       name: name.toString(),
-      value: serialize(value),
+      ...serialize(value),
     });
   }
 
@@ -22,7 +22,7 @@ export class MysqlDataApiQueryCompiler extends MysqlQueryCompiler {
     this.append(this.getCurrentParameterPlaceholder());
     this.addParameter({
       name: name.toString(),
-      value: serialize(value),
+      ...serialize(value),
     });
   }
 
@@ -31,37 +31,74 @@ export class MysqlDataApiQueryCompiler extends MysqlQueryCompiler {
   }
 }
 
-function serialize(value: any): Field {
-  if (value == null) return { isNull: true };
+function serialize(value: any): SqlParameter {
+  if (value == null) return { value: { isNull: true } };
   switch (typeof value) {
     case "number":
       if (Number.isInteger(value))
         return {
-          longValue: value,
+          value: {
+            longValue: value,
+          },
         };
       else
         return {
-          doubleValue: value,
+          value: {
+            doubleValue: value,
+          }
         };
     case "bigint":
       return {
-        doubleValue: Number(value),
+        value: {
+          doubleValue: Number(value),
+        }
       };
     case "string":
       return {
-        stringValue: value,
+        value: {
+          stringValue: value,
+        }
       };
     case "boolean":
       return {
-        booleanValue: value,
+        value: {
+          booleanValue: value,
+        }
       };
     case "object":
       if (Buffer.isBuffer(value))
         return {
-          blobValue: value,
+          value: {
+            blobValue: value,
+          }
         };
-      else break;
+
+      if (Array.isArray(value)) {
+        return {
+          value: {
+            arrayValue: {
+              stringValues: value,
+            }
+          }
+        }
+      }
+
+      if (value instanceof Date)
+        return {
+          typeHint: "TIMESTAMP",
+          value: { stringValue: serializeDate(value) },
+        }
+
+      return {
+        value: {
+          stringValue: JSON.stringify(value),
+        }
+      }
   }
 
   throw new Error(`Unsupported type: ${value}`);
+}
+
+function serializeDate(input: Date) {
+  return input.toISOString().replace("T", " ").substring(0, 23);
 }
