@@ -63,5 +63,5 @@ function serialize(value: any): Field {
       else break;
   }
 
-  throw "wtf";
+  throw new Error(`Unsupported type: ${value}`);
 }
