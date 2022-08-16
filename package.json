@@ -28,8 +28,8 @@
     "vitest": "^0.18.1"
   },
   "peerDependencies": {
-    "aws-sdk": "^2.1008.0",
-    "kysely": "^0.19.3"
+    "aws-sdk": "2.x",
+    "kysely": "0.x"
   },
   "files": [
     "dist"
