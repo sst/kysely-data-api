@@ -113,7 +113,7 @@ class DataApiConnection implements DatabaseConnection {
         (rec) =>
           Object.fromEntries(
             rec.map((val, i) => [
-              r.columnMetadata?.[i].name,
+              r.columnMetadata![i].label || r.columnMetadata![i].name,
               val.stringValue ??
                 val.blobValue ??
                 val.longValue ??
@@ -127,5 +127,12 @@ class DataApiConnection implements DatabaseConnection {
       rows: rows || [],
     };
     return result;
+  }
+   
+   async *streamQuery<O>(
+    _compiledQuery: CompiledQuery,
+    _chunkSize: number
+  ): AsyncIterableIterator<QueryResult<O>> {
+    throw new Error("Data API does not support streaming");
   }
 }
