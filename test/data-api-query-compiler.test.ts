@@ -1,22 +1,23 @@
 import { sql } from "kysely";
+import { expect, it } from "vitest";
 
 import { db } from "./harness";
 
 const { ref } = db.dynamic;
 
-test("bigint", () => {
+it("bigint", () => {
   const result = db.selectFrom("person").selectAll().where("score", ">", BigInt(1000)).compile();
   expect(result.sql).toEqual(`select * from "person" where "score" > :0`);
   expect(result.parameters).toEqual([{ name: "0", value: { doubleValue: 1000 } }]);
 });
 
-test("boolean", () => {
+it("boolean", () => {
   const result = db.selectFrom("person").selectAll().where("is_active", "=", true).compile();
   expect(result.sql).toEqual(`select * from "person" where "is_active" = :0`);
   expect(result.parameters).toEqual([{ name: "0", value: { booleanValue: true } }]);
 });
 
-test("object (Array (bigint))", () => {
+it("object (Array (bigint))", () => {
   const result = db
     .selectFrom("person")
     .selectAll().where("score", "in", [BigInt(10), BigInt(100), BigInt(1000)])
@@ -44,7 +45,7 @@ test("object (Array (bigint))", () => {
   ]);
 });
 
-test("object (Array (boolean))", () => {
+it("object (Array (boolean))", () => {
   const result = db.selectFrom("person").selectAll().where("is_active", "in", [true, false]).compile();
   expect(result.sql).toEqual(`select * from "person" where "is_active" in (:0, :1)`);
   expect(result.parameters).toEqual([
@@ -63,7 +64,7 @@ test("object (Array (boolean))", () => {
   ]);
 });
 
-test("object (Array (number))", () => {
+it("object (Array (number))", () => {
   const result = db.selectFrom("person").selectAll().where("id", "in", [1, 2, 3]).compile();
   expect(result.sql).toEqual(`select * from "person" where "id" in (:0, :1, :2)`);
   expect(result.parameters).toEqual([
@@ -88,7 +89,7 @@ test("object (Array (number))", () => {
   ]);
 });
 
-test("object (Array (string))", () => {
+it("object (Array (string))", () => {
   const result = db
     .selectFrom("person")
     .selectAll().where(sql`lower(first_name)`, "in", ["alice", "bob", "carol"])
@@ -116,7 +117,7 @@ test("object (Array (string))", () => {
   ]);
 });
 
-test("object (Buffer)", () => {
+it("object (Buffer)", () => {
   const result = db
     .selectFrom("person")
     .selectAll()
@@ -126,7 +127,7 @@ test("object (Buffer)", () => {
   expect(result.parameters).toEqual([{ name: "0", value: { blobValue: Buffer.from("abc") } }]);
 });
 
-test("object (Date)", () => {
+it("object (Date)", () => {
   const result = db
     .selectFrom("person")
     .selectAll()
@@ -138,13 +139,13 @@ test("object (Date)", () => {
   ]);
 });
 
-test("object (null)", () => {
+it("object (null)", () => {
   const result = db.selectFrom("pet").selectAll().where("owner_id", "=", null).compile();
   expect(result.sql).toEqual(`select * from "pet" where "owner_id" = :0`);
   expect(result.parameters).toEqual([{ name: "0", value: { isNull: true } }]);
 });
 
-test("object (value object (primitives))", () => {
+it("object (value object (primitives))", () => {
   const inputs = {
     blobValue: Buffer.from("abc"),
     booleanValue: true,
@@ -164,7 +165,7 @@ test("object (value object (primitives))", () => {
   }
 });
 
-test("object (value object (arrays))", () => {
+it("object (value object (arrays))", () => {
   const inputs = {
     booleanValues: [true, false],
     doubleValues: [1.23, 4.56, 7.89],
@@ -182,7 +183,7 @@ test("object (value object (arrays))", () => {
   }
 });
 
-test("object (value object (DATE))", () => {
+it("object (value object (DATE))", () => {
   const pairs = [
     ["2022-10-20", "2022-10-20"],
     ["2022-10-20T01:34:56+02:00", "2022-10-19"],
@@ -198,7 +199,7 @@ test("object (value object (DATE))", () => {
   }
 });
 
-test("object (value object (DECIMAL))", () => {
+it("object (value object (DECIMAL))", () => {
   const result = db.selectFrom("person").selectAll().where("balance", ">", {
     typeHint: "DECIMAL",
     value: { stringValue: "1000" },
@@ -207,7 +208,7 @@ test("object (value object (DECIMAL))", () => {
   expect(result.parameters).toEqual([{ name: "0", typeHint: "DECIMAL", value: { stringValue: "1000" } }]);
 });
 
-test("object (value object (TIME))", () => {
+it("object (value object (TIME))", () => {
   const pairs = [
     ["12:34", "12:34:00"],
     ["12:34:56", "12:34:56"],
@@ -226,7 +227,7 @@ test("object (value object (TIME))", () => {
   }
 });
 
-test("object (value object (TIMESTAMP))", () => {
+it("object (value object (TIMESTAMP))", () => {
   const pairs = [
     ["2022-10-20", "2022-10-20 00:00:00.000"],
     ["2022-10-20T01:34:56+02:00", "2022-10-19 23:34:56.000"],
@@ -244,19 +245,19 @@ test("object (value object (TIMESTAMP))", () => {
   }
 });
 
-test("number", () => {
+it("number", () => {
   const result = db.selectFrom("person").selectAll().where("id", "=", 1).compile();
   expect(result.sql).toEqual(`select * from "person" where "id" = :0`);
   expect(result.parameters).toEqual([{ name: "0", value: { longValue: 1 } }]);
 });
 
-test("string", () => {
+it("string", () => {
   const result = db.selectFrom("person").selectAll().where("first_name", "ilike", "%john%").compile();
   expect(result.sql).toEqual(`select * from "person" where "first_name" ilike :0`);
   expect(result.parameters).toEqual([{ name: "0", value: { stringValue: "%john%" } }]);
 });
 
-test("throwing with unknown value type", () => {
+it("throwing with unknown value type", () => {
   expect(() => db
     .selectFrom("person")
     .selectAll()

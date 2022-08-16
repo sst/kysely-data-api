@@ -15,23 +15,14 @@
     "build": "yarn clean && yarn build:esm && yarn build:cjs && ./module-fixup.sh",
     "test": "AWS_SDK_LOAD_CONFIG=1 vitest",
     "build:esm": "tsc -p tsconfig-esm.json",
-    "build:cjs": "tsc -p tsconfig-cjs.json",
-    "format": "eslint --fix .",
-    "lint": "tsc --noEmit && eslint .",
-    "test": "AWS_SDK_LOAD_CONFIG=1 jest"
+    "build:cjs": "tsc -p tsconfig-cjs.json"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.5",
     "@changesets/cli": "^2.23.2",
     "@tsconfig/node14": "^1.0.1",
     "@types/node": "^16.11.0",
-    "@typescript-eslint/eslint-plugin": "^5.26.0",
-    "@typescript-eslint/parser": "^5.26.0",
     "aws-sdk": "^2.1008.0",
-    "esbuild": "^0.13.6",
-    "esbuild-runner": "^2.2.1",
-    "eslint": "^8.16.0",
-    "jest": "^27.2.5",
     "kysely": "^0.19.3",
     "perf_hooks": "^0.0.1",
     "vitest": "^0.18.1"
