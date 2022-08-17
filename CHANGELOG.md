@@ -1,5 +1,11 @@
 # kysely-data-api
 
+## 0.1.2
+
+### Patch Changes
+
+- [`0c495b3`](https://github.com/serverless-stack/kysely-data-api/commit/0c495b32eca982a915656c3f0a1ca9d11b7ebd07) Thanks [@thdxr](https://github.com/thdxr)! - Relax peer dependency requirement
+
 ## 0.1.1
 
 ### Patch Changes
