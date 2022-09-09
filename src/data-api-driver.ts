@@ -1,7 +1,7 @@
 import { DatabaseConnection, QueryResult } from "kysely";
 import { Driver } from "kysely";
 import { CompiledQuery } from "kysely";
-import RDSDataService, { SqlParametersList } from "aws-sdk/clients/rdsdataservice";
+import RDSDataService, { SqlParametersList } from "aws-sdk/clients/rdsdataservice.js";
 
 export type DataApiDriverConfig = {
   client: RDSDataService;

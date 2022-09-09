@@ -9,11 +9,11 @@ import {
   DatabaseIntrospector,
   PostgresIntrospector,
 } from "kysely";
-import { DataApiDriver, DataApiDriverConfig } from "./data-api-driver";
+import { DataApiDriver, DataApiDriverConfig } from "./data-api-driver.js";
 import {
   PostgresDataApiQueryCompiler,
   MysqlDataApiQueryCompiler,
-} from "./data-api-query-compiler";
+} from "./data-api-query-compiler.js";
 
 type DataApiDialectConfig = {
   mode: "postgres" | "mysql";
