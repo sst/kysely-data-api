@@ -98,6 +98,7 @@ class DataApiConnection implements DatabaseConnection {
     if (!r.columnMetadata) {
       return {
         numUpdatedOrDeletedRows: BigInt(r.numberOfRecordsUpdated || 0),
+        insertId: generatedFields && generatedFields.length > 0 ? generatedFields[0].longValue : undefined
         rows: [],
       };
     }
