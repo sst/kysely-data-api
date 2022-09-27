@@ -1,5 +1,11 @@
 # kysely-data-api
 
+## 0.1.4
+
+### Patch Changes
+
+- [`d91a5b4`](https://github.com/serverless-stack/kysely-data-api/commit/d91a5b48e2ebb617640c6d28e8d52a0944468fdd) Thanks [@thdxr](https://github.com/thdxr)! - Fix issue with ESM export
+
 ## 0.1.3
 
 ### Patch Changes
