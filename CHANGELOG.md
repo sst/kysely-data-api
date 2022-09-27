@@ -1,5 +1,11 @@
 # kysely-data-api
 
+## 0.1.3
+
+### Patch Changes
+
+- [`293394c`](https://github.com/serverless-stack/kysely-data-api/commit/293394c0980d6d97e70b0eec7e329d7a89e92d73) Thanks [@thdxr](https://github.com/thdxr)! - Query compiler support for Date & typeHint #5
+
 ## 0.1.2
 
 ### Patch Changes
