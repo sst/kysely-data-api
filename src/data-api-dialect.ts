@@ -46,7 +46,7 @@ export class DataApiDialect implements Dialect {
     throw new Error("Unknown mode " + this.#config.mode);
   }
 
-  createIntrospector(db: Kysely<any>): DatabaseIntrospector {
+  createIntrospector(db: Kysely<unknown>): DatabaseIntrospector {
     if (this.#config.mode === "postgres") return new PostgresIntrospector(db);
     if (this.#config.mode === "mysql") return new MysqlIntrospector(db);
 

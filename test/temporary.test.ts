@@ -23,10 +23,7 @@ const PERSON_ALIAS = {
 it("insert and read", async () => {
   await db
     .insertInto("person")
-    .values({
-      id: generated,
-      ...PERSON,
-    })
+    .values(PERSON)
     .execute();
 
   const result = await db.selectFrom("person").selectAll().execute();
@@ -46,17 +43,13 @@ it("alias return", async () => {
 it("join", async () => {
   const person = await db
     .insertInto("person")
-    .values({
-      id: db.generated,
-      ...PERSON,
-    })
+    .values(PERSON)
     .returning(["id"])
     .executeTakeFirst();
 
   await db
     .insertInto("pet")
     .values({
-      id: db.generated,
       name: "fido",
       species: "dog",
       owner_id: person.id,
@@ -77,10 +70,7 @@ it("transaction", async () => {
   await db.transaction().execute(async (tx) => {
     await tx
       .insertInto("person")
-      .values({
-        id: db.generated,
-        ...PERSON,
-      })
+      .values(PERSON)
       .execute();
   });
 
