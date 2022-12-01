@@ -1,4 +1,4 @@
-import { SqlParameter } from "aws-sdk/clients/rdsdataservice";
+import { SqlParameter } from "@aws-sdk/client-rds-data";
 import { MysqlQueryCompiler, PostgresQueryCompiler } from "kysely";
 
 export class PostgresDataApiQueryCompiler extends PostgresQueryCompiler {
