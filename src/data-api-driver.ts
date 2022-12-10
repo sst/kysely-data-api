@@ -102,8 +102,14 @@ class DataApiConnection implements DatabaseConnection {
       })
       .promise();
     if (!r.columnMetadata) {
+      const numAffectedRows = BigInt(r.numberOfRecordsUpdated || 0)
+
       return {
-        numUpdatedOrDeletedRows: BigInt(r.numberOfRecordsUpdated || 0),
+        // @ts-ignore replaces `QueryResult.numUpdatedOrDeletedRows` in kysely > 0.22 
+        // following https://github.com/koskimas/kysely/pull/188
+        numAffectedRows,
+        // deprecated in kysely > 0.22, keep for backward compatibility.
+        numUpdatedOrDeletedRows: numAffectedRows,
         rows: [],
       };
     }
