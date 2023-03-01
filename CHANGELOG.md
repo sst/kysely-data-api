@@ -1,5 +1,11 @@
 # kysely-data-api
 
+## 0.2.0
+
+### Minor Changes
+
+- [`80a6f36`](https://github.com/serverless-stack/kysely-data-api/commit/80a6f3664eb3421b5d0632895f916083caafdbd0) Thanks [@thdxr](https://github.com/thdxr)! - Upgrade to aws-sdk v3
+
 ## 0.1.4
 
 ### Patch Changes
