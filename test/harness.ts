@@ -1,4 +1,4 @@
-import RDSDataService from "aws-sdk/clients/rdsdataservice";
+import { RDSData } from "@aws-sdk/client-rds-data";
 import { ColumnType, Generated, Kysely } from "kysely";
 import { DataApiDialect } from "../src";
 import { DataApiDriverConfig } from "../src/data-api-driver";
@@ -7,7 +7,7 @@ import path from "path";
 const TEST_DATABASE = "scratch";
 
 const opts: DataApiDriverConfig = {
-  client: new RDSDataService(),
+  client: new RDSData({}),
   database: TEST_DATABASE,
   secretArn: process.env.RDS_SECRET,
   resourceArn: process.env.RDS_ARN,
@@ -15,7 +15,6 @@ const opts: DataApiDriverConfig = {
 const dialect = new DataApiDialect({
   mode: "postgres",
   driver: opts,
-  mode: "postgres",
 });
 
 export interface Person {
@@ -54,8 +53,7 @@ export async function migrate() {
       database: "postgres",
       secretArn: opts.secretArn,
       resourceArn: opts.resourceArn,
-    })
-    .promise();
+    });
 
   await opts.client
     .executeStatement({
@@ -63,8 +61,7 @@ export async function migrate() {
       database: "postgres",
       secretArn: opts.secretArn,
       resourceArn: opts.resourceArn,
-    })
-    .promise();
+    });
 
   await opts.client
     .executeStatement({
@@ -72,8 +69,7 @@ export async function migrate() {
       database: "postgres",
       secretArn: opts.secretArn,
       resourceArn: opts.resourceArn,
-    })
-    .promise();
+    });
 
   await db.migration.migrateToLatest(path.resolve("./test/migrations"));
 }

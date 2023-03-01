@@ -1,10 +1,8 @@
-import { DatabaseConnection, QueryResult } from "kysely";
-import { Driver } from "kysely";
-import { CompiledQuery } from "kysely";
-import RDSDataService, { SqlParametersList } from "aws-sdk/clients/rdsdataservice.js";
+import { RDSData, SqlParameter } from "@aws-sdk/client-rds-data";
+import { CompiledQuery, DatabaseConnection, Driver, QueryResult } from "kysely";
 
 export type DataApiDriverConfig = {
-  client: RDSDataService;
+  client: RDSData;
   secretArn: string;
   resourceArn: string;
   database: string;
@@ -60,8 +58,7 @@ class DataApiConnection implements DatabaseConnection {
         secretArn: this.#config.secretArn,
         resourceArn: this.#config.resourceArn,
         database: this.#config.database,
-      })
-      .promise();
+      });
     this.#transactionId = r.transactionId;
   }
 
@@ -73,8 +70,7 @@ class DataApiConnection implements DatabaseConnection {
         secretArn: this.#config.secretArn,
         resourceArn: this.#config.resourceArn,
         transactionId: this.#transactionId,
-      })
-      .promise();
+      });
   }
 
   public async rollbackTransaction() {
@@ -85,8 +81,7 @@ class DataApiConnection implements DatabaseConnection {
         secretArn: this.#config.secretArn,
         resourceArn: this.#config.resourceArn,
         transactionId: this.#transactionId,
-      })
-      .promise();
+      });
   }
 
   async executeQuery<O>(compiledQuery: CompiledQuery): Promise<QueryResult<O>> {
@@ -96,11 +91,10 @@ class DataApiConnection implements DatabaseConnection {
         secretArn: this.#config.secretArn,
         resourceArn: this.#config.resourceArn,
         sql: compiledQuery.sql,
-        parameters: compiledQuery.parameters as SqlParametersList,
+        parameters: compiledQuery.parameters as SqlParameter[],
         database: this.#config.database,
         includeResultMetadata: true,
-      })
-      .promise();
+      });
     if (!r.columnMetadata) {
       return {
         numUpdatedOrDeletedRows: BigInt(r.numberOfRecordsUpdated || 0),
