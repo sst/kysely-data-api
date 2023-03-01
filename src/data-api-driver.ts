@@ -53,58 +53,57 @@ class DataApiConnection implements DatabaseConnection {
   }
 
   public async beginTransaction() {
-    const r = await this.#config.client
-      .beginTransaction({
-        secretArn: this.#config.secretArn,
-        resourceArn: this.#config.resourceArn,
-        database: this.#config.database,
-      });
+    const r = await this.#config.client.beginTransaction({
+      secretArn: this.#config.secretArn,
+      resourceArn: this.#config.resourceArn,
+      database: this.#config.database,
+    });
     this.#transactionId = r.transactionId;
   }
 
   public async commitTransaction() {
     if (!this.#transactionId)
       throw new Error("Cannot commit a transaction before creating it");
-    await this.#config.client
-      .commitTransaction({
-        secretArn: this.#config.secretArn,
-        resourceArn: this.#config.resourceArn,
-        transactionId: this.#transactionId,
-      });
+    await this.#config.client.commitTransaction({
+      secretArn: this.#config.secretArn,
+      resourceArn: this.#config.resourceArn,
+      transactionId: this.#transactionId,
+    });
   }
 
   public async rollbackTransaction() {
     if (!this.#transactionId)
       throw new Error("Cannot rollback a transaction before creating it");
-    await this.#config.client
-      .rollbackTransaction({
-        secretArn: this.#config.secretArn,
-        resourceArn: this.#config.resourceArn,
-        transactionId: this.#transactionId,
-      });
+    await this.#config.client.rollbackTransaction({
+      secretArn: this.#config.secretArn,
+      resourceArn: this.#config.resourceArn,
+      transactionId: this.#transactionId,
+    });
   }
 
   async executeQuery<O>(compiledQuery: CompiledQuery): Promise<QueryResult<O>> {
-    const r = await this.#config.client
-      .executeStatement({
-        transactionId: this.#transactionId,
-        secretArn: this.#config.secretArn,
-        resourceArn: this.#config.resourceArn,
-        sql: compiledQuery.sql,
-        parameters: compiledQuery.parameters as SqlParameter[],
-        database: this.#config.database,
-        includeResultMetadata: true,
-      });
+    const r = await this.#config.client.executeStatement({
+      transactionId: this.#transactionId,
+      secretArn: this.#config.secretArn,
+      resourceArn: this.#config.resourceArn,
+      sql: compiledQuery.sql,
+      parameters: compiledQuery.parameters as SqlParameter[],
+      database: this.#config.database,
+      includeResultMetadata: true,
+    });
     if (!r.columnMetadata) {
-      const numAffectedRows = BigInt(r.numberOfRecordsUpdated || 0)
+      const numAffectedRows = BigInt(r.numberOfRecordsUpdated || 0);
 
       return {
-        // @ts-ignore replaces `QueryResult.numUpdatedOrDeletedRows` in kysely >= 0.23 
+        // @ts-ignore replaces `QueryResult.numUpdatedOrDeletedRows` in kysely >= 0.23
         // following https://github.com/koskimas/kysely/pull/188
         numAffectedRows,
         // deprecated in kysely >= 0.23, keep for backward compatibility.
         numUpdatedOrDeletedRows: numAffectedRows,
-        insertId: r.generatedFields && r.generatedFields.length > 0 ? r.generatedFields[0].longValue : undefined
+        insertId:
+          r.generatedFields && r.generatedFields.length > 0
+            ? BigInt(r.generatedFields[0].longValue!)
+            : undefined,
         rows: [],
       };
     }
@@ -121,16 +120,16 @@ class DataApiConnection implements DatabaseConnection {
                 val.arrayValue ??
                 val.doubleValue ??
                 (val.isNull ? null : val.booleanValue),
-            ]),
-          ) as unknown as O,
+            ])
+          ) as unknown as O
       );
     const result: QueryResult<O> = {
       rows: rows || [],
     };
     return result;
   }
-   
-   async *streamQuery<O>(
+
+  async *streamQuery<O>(
     _compiledQuery: CompiledQuery,
     _chunkSize: number
   ): AsyncIterableIterator<QueryResult<O>> {
