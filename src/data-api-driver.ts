@@ -113,15 +113,15 @@ class DataApiConnection implements DatabaseConnection {
         Object.fromEntries(
           rec.map((val, i) => [
             r.columnMetadata![i].label || r.columnMetadata![i].name,
-            val.stringValue ??
-            val.doubleValue ??
-            val.longValue ??
-            val.booleanValue ??
             val.isNull
               ? null
-              : this.#unmarshallArrayValue(val.arrayValue) ??
+              : val.stringValue ??
+                val.doubleValue ??
+                val.longValue ??
+                val.booleanValue ??
+                this.#unmarshallArrayValue(val.arrayValue) ??
                 val.blobValue ??
-                null,
+                null, // FIXME: should throw an error here?
           ])
         )
       );
