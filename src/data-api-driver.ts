@@ -1,4 +1,4 @@
-import { RDSData, SqlParameter } from "@aws-sdk/client-rds-data";
+import { ArrayValue, RDSData, SqlParameter } from "@aws-sdk/client-rds-data";
 import { CompiledQuery, DatabaseConnection, Driver, QueryResult } from "kysely";
 
 export type DataApiDriverConfig = {
@@ -109,19 +109,21 @@ class DataApiConnection implements DatabaseConnection {
     }
     const rows = r.records
       ?.filter((r) => r.length !== 0)
-      .map(
-        (rec) =>
-          Object.fromEntries(
-            rec.map((val, i) => [
-              r.columnMetadata![i].label || r.columnMetadata![i].name,
-              val.stringValue ??
+      .map((rec) =>
+        Object.fromEntries(
+          rec.map((val, i) => [
+            r.columnMetadata![i].label || r.columnMetadata![i].name,
+            val.stringValue ??
+            val.doubleValue ??
+            val.longValue ??
+            val.booleanValue ??
+            val.isNull
+              ? null
+              : this.#unmarshallArrayValue(val.arrayValue) ??
                 val.blobValue ??
-                val.longValue ??
-                val.arrayValue ??
-                val.doubleValue ??
-                (val.isNull ? null : val.booleanValue),
-            ])
-          ) as unknown as O
+                null,
+          ])
+        )
       );
     const result: QueryResult<O> = {
       rows: rows || [],
@@ -134,5 +136,19 @@ class DataApiConnection implements DatabaseConnection {
     _chunkSize: number
   ): AsyncIterableIterator<QueryResult<O>> {
     throw new Error("Data API does not support streaming");
+  }
+
+  #unmarshallArrayValue(arrayValue: ArrayValue | undefined): unknown {
+    if (!arrayValue) {
+      return undefined;
+    }
+
+    return (
+      arrayValue.stringValues ??
+      arrayValue.doubleValues ??
+      arrayValue.longValues ??
+      arrayValue.booleanValues ??
+      arrayValue.arrayValues?.map(this.#unmarshallArrayValue)
+    );
   }
 }
