@@ -1,5 +1,13 @@
 # kysely-data-api
 
+## 0.2.1
+
+### Patch Changes
+
+- [`d296d2c`](https://github.com/serverless-stack/kysely-data-api/commit/d296d2c9500d622e706f4e42402d9b84de072688) Thanks [@thdxr](https://github.com/thdxr)! - Use forked postgres-introspector
+
+- [#24](https://github.com/serverless-stack/kysely-data-api/pull/24) [`d5d5e5a`](https://github.com/serverless-stack/kysely-data-api/commit/d5d5e5aa6de7d8ad3381b8e599ad52846dbcc611) Thanks [@igalklebanov](https://github.com/igalklebanov)! - arrayValue fields will now be unmarshalled so consumers will get JS arrays.
+
 ## 0.2.0
 
 ### Minor Changes
