@@ -7,13 +7,13 @@ import {
   QueryCompiler,
   Dialect,
   DatabaseIntrospector,
-  PostgresIntrospector,
 } from "kysely";
 import { DataApiDriver, DataApiDriverConfig } from "./data-api-driver.js";
 import {
   PostgresDataApiQueryCompiler,
   MysqlDataApiQueryCompiler,
 } from "./data-api-query-compiler.js";
+import { PostgresIntrospector } from "./postgres-introspector.js";
 
 type DataApiDialectConfig = {
   mode: "postgres" | "mysql";
