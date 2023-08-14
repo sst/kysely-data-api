@@ -1,5 +1,11 @@
 # kysely-data-api
 
+## 0.3.0
+
+### Minor Changes
+
+- [#29](https://github.com/sst/kysely-data-api/pull/29) [`a2c26d4`](https://github.com/sst/kysely-data-api/commit/a2c26d475394ff949e29b3fb224fa38b52fcd70b) Thanks [@c-st](https://github.com/c-st)! - Convert string for fields marked as TIMESTAMP to Date
+
 ## 0.2.1
 
 ### Patch Changes
