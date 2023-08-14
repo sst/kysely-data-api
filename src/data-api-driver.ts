@@ -111,9 +111,10 @@ class DataApiConnection implements DatabaseConnection {
       ?.filter((r) => r.length !== 0)
       .map((rec) =>
         Object.fromEntries(
-          rec.map((val, i) => [
-            r.columnMetadata![i].label || r.columnMetadata![i].name,
-            val.isNull
+          rec.map((val, i) => {
+            const { label, name, typeName } = r.columnMetadata![i]
+            const key = label || name;
+            let value = val.isNull
               ? null
               : val.stringValue ??
                 val.doubleValue ??
@@ -121,8 +122,16 @@ class DataApiConnection implements DatabaseConnection {
                 val.booleanValue ??
                 this.#unmarshallArrayValue(val.arrayValue) ??
                 val.blobValue ??
-                null, // FIXME: should throw an error here?
-          ])
+                null; // FIXME: should throw an error here?
+
+            if (typeof(value) === 'string' && typeName && ["timestamp", "timestamptz", "date"].includes(
+              typeName.toLocaleLowerCase()
+            )) {
+              value = new Date(value);
+            }
+
+            return [key, value];
+          })
         )
       );
     const result: QueryResult<O> = {
