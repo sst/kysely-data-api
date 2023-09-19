@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 devDependencies:
   '@aws-sdk/client-rds-data':
     specifier: ^3.218.0
@@ -21,8 +17,8 @@ devDependencies:
     specifier: ^18.14.2
     version: 18.14.2
   kysely:
-    specifier: ^0.26.0
-    version: 0.26.3
+    specifier: ^0.23.4
+    version: 0.23.4
   perf_hooks:
     specifier: ^0.0.1
     version: 0.0.1
@@ -2120,8 +2116,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /kysely@0.26.3:
-    resolution: {integrity: sha512-yWSgGi9bY13b/W06DD2OCDDHQmq1kwTGYlQ4wpZkMOJqMGCstVCFIvxCCVG4KfY1/3G0MhDAcZsip/Lw8/vJWw==}
+  /kysely@0.23.4:
+    resolution: {integrity: sha512-3icLnj1fahUtZsP9zzOvF4DcdhekGsLX4ZaoBaIz0ZeHegyRDdbwpJD7zezAJ+KwQZNDeKchel6MikFNLsSZIA==}
     engines: {node: '>=14.0.0'}
     dev: true
 
