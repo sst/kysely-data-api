@@ -30,7 +30,7 @@
   },
   "peerDependencies": {
     "@aws-sdk/client-rds-data": "3.x",
-    "kysely": "0.x"
+    "kysely": "<0.26.0"
   },
   "files": [
     "dist"
