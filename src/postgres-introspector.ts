@@ -49,7 +49,9 @@ export class PostgresIntrospector implements DatabaseIntrospector {
         "a.attnotnull as not_null",
         "a.atthasdef as has_default",
         "c.relname as table",
-        "c.relkind as table_type",
+        sql<string>`case when c.relkind = 'v' then true else false end`.as(
+          "is_view"
+        ),
         "ns.nspname as schema",
         "typ.typname as type",
         "dtns.nspname as type_schema",
@@ -106,7 +108,7 @@ export class PostgresIntrospector implements DatabaseIntrospector {
       if (!table) {
         table = Object.freeze({
           name: it.table,
-          isView: it.table_type === "v",
+          isView: it.is_view,
           schema: it.schema,
           columns: [],
         });
@@ -137,7 +139,7 @@ interface RawSchemaMetadata {
 interface RawColumnMetadata {
   column: string;
   table: string;
-  table_type: string;
+  is_view: string;
   schema: string;
   not_null: boolean;
   has_default: boolean;
