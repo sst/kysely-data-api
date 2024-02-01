@@ -1,5 +1,11 @@
 # kysely-data-api
 
+## 1.0.0
+
+### Major Changes
+
+- [#35](https://github.com/sst/kysely-data-api/pull/35) [`d1e0380`](https://github.com/sst/kysely-data-api/commit/d1e0380a3db2b5db90f20ae047d5012fd33737bb) Thanks [@omikader](https://github.com/omikader)! - Upgrade kysely dependency to ^0.26.0
+
 ## 0.3.1
 
 ### Patch Changes
