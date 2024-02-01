@@ -1,5 +1,11 @@
 # kysely-data-api
 
+## 0.3.1
+
+### Patch Changes
+
+- [#32](https://github.com/sst/kysely-data-api/pull/32) [`7f5ebdd`](https://github.com/sst/kysely-data-api/commit/7f5ebdd97e015c990855adbd5912fc28943219dd) Thanks [@omikader](https://github.com/omikader)! - fix(types): set strict kysely peer dependency due to breaking change
+
 ## 0.3.0
 
 ### Minor Changes
