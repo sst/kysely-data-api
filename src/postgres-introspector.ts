@@ -137,7 +137,7 @@ interface RawSchemaMetadata {
 interface RawColumnMetadata {
   column: string;
   table: string;
-  is_view: string;
+  is_view: boolean;
   schema: string;
   not_null: boolean;
   has_default: boolean;

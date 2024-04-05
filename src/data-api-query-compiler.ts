@@ -58,7 +58,7 @@ function serialize(value: unknown): Pick<SqlParameter, "typeHint" | "value"> {
         && typeof ((value as RSU).value as RSU).stringValue === "string"
       )
         ((value as RSU).value as RSU).stringValue = fixStringValue(
-          (value as RSS).typeHint,
+          (value as RSS).typeHint as SqlParameter["typeHint"],
           ((value as RSU).value as RSS).stringValue,
         );
       return value;

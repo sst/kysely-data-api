@@ -18,19 +18,20 @@
     "build:cjs": "tsc -p tsconfig-cjs.json"
   },
   "devDependencies": {
-    "@aws-sdk/client-rds-data": "^3.218.0",
+    "@aws-sdk/client-rds-data": "^3.549.0",
     "@changesets/changelog-github": "^0.4.5",
     "@changesets/cli": "^2.23.2",
     "@tsconfig/node14": "^1.0.1",
     "@types/node": "^18.14.2",
-    "kysely": "^0.26.0",
+    "kysely": "^0.27.3",
     "perf_hooks": "^0.0.1",
     "prettier": "^2.8.4",
+    "typescript": "^5.4.4",
     "vitest": "^0.18.1"
   },
   "peerDependencies": {
     "@aws-sdk/client-rds-data": "3.x",
-    "kysely": "^0.26.0"
+    "kysely": "^0.27.3"
   },
   "files": [
     "dist"
