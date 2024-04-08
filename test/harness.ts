@@ -1,8 +1,9 @@
 import { RDSData } from "@aws-sdk/client-rds-data";
-import { ColumnType, Generated, Kysely } from "kysely";
+import { ColumnType, Generated, Kysely, Migrator, FileMigrationProvider } from "kysely";
 import { DataApiDialect } from "../src";
 import { DataApiDriverConfig } from "../src/data-api-driver";
 import path from "path";
+import { promises as fs } from "fs";
 
 const TEST_DATABASE = "scratch";
 
@@ -71,7 +72,29 @@ export async function migrate() {
       resourceArn: opts.resourceArn,
     });
 
-  await db.migration.migrateToLatest(path.resolve("./test/migrations"));
+  const migrator = new Migrator({
+    db,
+    provider: new FileMigrationProvider({
+      fs,
+      path,
+      migrationFolder: path.join(__dirname, "migrations"),
+    }),
+  })
+
+  const { error, results } = await migrator.migrateToLatest();
+
+  results?.forEach((it) => {
+    if (it.status === "Success") {
+      console.log(`migration "${it.migrationName}" was executed successfully`);
+    } else if (it.status === "Error") {
+      console.error(`failed to execute migration "${it.migrationName}"`);
+    }
+  })
+
+  if (error) {
+    console.error("failed to migrate");
+    console.error(error);
+  }
 }
 
 export async function reset() {

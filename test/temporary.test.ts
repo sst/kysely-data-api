@@ -32,6 +32,11 @@ it("insert and read", async () => {
 });
 
 it("alias return", async () => {
+  await db
+    .insertInto("person")
+    .values(PERSON)
+    .execute();
+
   const result = await db
     .selectFrom("person")
     .select(["first_name as first", "last_name as last"])

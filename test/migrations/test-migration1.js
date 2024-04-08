@@ -1,7 +1,7 @@
 async function up(db) {
   await db.schema
     .createTable("person")
-    .addColumn("id", "integer", (col) => col.increments().primaryKey())
+    .addColumn("id", "serial", (col) => col.primaryKey())
     .addColumn("first_name", "varchar")
     .addColumn("last_name", "varchar")
     .addColumn("gender", "varchar(50)")
@@ -9,7 +9,7 @@ async function up(db) {
 
   await db.schema
     .createTable("pet")
-    .addColumn("id", "integer", (col) => col.increments().primaryKey())
+    .addColumn("id", "serial", (col) => col.primaryKey())
     .addColumn("name", "varchar", (col) => col.notNull().unique())
     .addColumn("owner_id", "integer", (col) => col.references("person.id").onDelete("cascade"))
     .addColumn("species", "varchar")
