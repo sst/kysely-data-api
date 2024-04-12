@@ -1,5 +1,13 @@
 # kysely-data-api
 
+## 1.0.1
+
+### Patch Changes
+
+- [#41](https://github.com/sst/kysely-data-api/pull/41) [`6158bd5`](https://github.com/sst/kysely-data-api/commit/6158bd5bb370231ec460c8d7965dc24d1f482092) Thanks [@woconnor](https://github.com/woconnor)! - Update pnpm-lock.yaml
+
+- [#40](https://github.com/sst/kysely-data-api/pull/40) [`9642337`](https://github.com/sst/kysely-data-api/commit/96423370aa7b50c2fde1ff4fde95a64011e40b58) Thanks [@woconnor](https://github.com/woconnor)! - Fix build and test with latest Kysely
+
 ## 1.0.0
 
 ### Major Changes
