@@ -68,7 +68,7 @@ export class PostgresIntrospector implements DatabaseIntrospector {
           .as("auto_incrementing"),
       ])
       // r == normal table
-      .where((qb) => qb("c.relkind", "=", "r").or("c.relkind", "=", "v"))
+      .where("c.relkind", "in", ["r", "v"])
       .where("ns.nspname", "!~", "^pg_")
       .where("ns.nspname", "!=", "information_schema")
       // No system columns
