@@ -1,5 +1,15 @@
 # kysely-data-api
 
+## 2.0.0
+
+### Major Changes
+
+- [#43](https://github.com/sst/kysely-data-api/pull/43) [`f1de155`](https://github.com/sst/kysely-data-api/commit/f1de155f0d38f3ec58fa61654403fcf76c1ea4ad) Thanks [@omikader](https://github.com/omikader)! - fix(driver): return Object for JSON columns and imply UTC for timestampz
+
+### Patch Changes
+
+- [#44](https://github.com/sst/kysely-data-api/pull/44) [`b3975e2`](https://github.com/sst/kysely-data-api/commit/b3975e2c4ce9854ebd2ab0e0db5779970f73f420) Thanks [@iloewensen](https://github.com/iloewensen)! - use or-operator to fix postgres introspector
+
 ## 1.0.1
 
 ### Patch Changes
