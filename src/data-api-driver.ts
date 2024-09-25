@@ -112,7 +112,7 @@ class DataApiConnection implements DatabaseConnection {
       .map((rec) =>
         Object.fromEntries(
           rec.map((val, i) => {
-            const { label, name, typeName } = r.columnMetadata![i]
+            const { label, name, typeName } = r.columnMetadata![i];
             const key = label || name;
             let value = val.isNull
               ? null
@@ -124,20 +124,23 @@ class DataApiConnection implements DatabaseConnection {
                 val.blobValue ??
                 null; // FIXME: should throw an error here?
 
-            if (typeof(value) === 'string' && typeName && ["timestamp", "timestamptz", "date"].includes(
-              typeName.toLocaleLowerCase()
-            )) {
-              value = new Date(value);
+            if (typeof value === "string" && typeName) {
+              const typeNameSafe = typeName.toLocaleLowerCase();
+              if (["timestamp", "date"].includes(typeNameSafe)) {
+                value = new Date(value);
+              } else if (typeNameSafe === "timestamptz") {
+                value = new Date(`${value}Z`);
+              } else if (["json", "jsonb"].includes(typeNameSafe)) {
+                value = JSON.parse(value);
+              }
             }
 
             return [key, value];
           })
         )
       );
-    const result: QueryResult<O> = {
-      rows: rows || [],
-    };
-    return result;
+
+    return { rows: rows ?? [] };
   }
 
   async *streamQuery<O>(
